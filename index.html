@@ -51,7 +51,6 @@
     padding: 48px 20px 80px;
   }
 
-  /* HEADER */
   .eyebrow {
     font-size: 11px;
     text-transform: uppercase;
@@ -76,17 +75,17 @@
     font-size: 12px;
     color: var(--muted);
     line-height: 1.6;
-    margin-bottom: 36px;
+    margin-bottom: 28px;
     animation: fadeDown 0.6s ease 0.16s both;
   }
 
-  /* DATE HERO CARD */
+  /* DATE HERO */
   .date-card {
     background: var(--card);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     padding: 32px 28px;
-    margin-bottom: 16px;
+    margin-bottom: 14px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -123,10 +122,7 @@
     color: var(--text);
   }
 
-  .date-big em {
-    color: var(--accent);
-    font-style: normal;
-  }
+  .date-big em { color: var(--accent); font-style: normal; }
 
   .date-weekday {
     font-size: 11px;
@@ -155,9 +151,28 @@
     text-align: center;
   }
 
-  .explore-btn:hover { opacity: 0.85; transform: translateY(-2px); }
+  .explore-btn:hover  { opacity: 0.85; transform: translateY(-2px); }
   .explore-btn:active { transform: translateY(0); opacity: 1; }
   .explore-btn:disabled { opacity: 0.35; cursor: not-allowed; transform: none; }
+
+  /* SOURCE BADGE */
+  .source-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 99px;
+    padding: 5px 12px;
+    margin-bottom: 14px;
+    animation: fadeUp 0.5s ease 0.25s both;
+  }
+
+  .source-badge span { color: var(--accent3); }
 
   /* LOADING */
   .loading-area {
@@ -169,7 +184,7 @@
     background: var(--card);
     border: 1px solid rgba(200,240,96,0.15);
     border-radius: var(--radius);
-    margin-bottom: 16px;
+    margin-bottom: 14px;
   }
 
   .loading-area.active { display: flex; animation: fadeUp 0.4s ease both; }
@@ -196,13 +211,12 @@
     background: var(--card);
     border: 1px solid rgba(255,107,107,0.3);
     border-radius: var(--radius);
-    padding: 28px;
-    text-align: center;
+    padding: 24px 28px;
     display: none;
-    margin-bottom: 16px;
+    margin-bottom: 14px;
   }
   .error-card.active { display: block; animation: fadeUp 0.4s ease both; }
-  .error-card p { font-size: 13px; color: var(--bear); line-height: 1.6; }
+  .error-card p { font-size: 12px; color: var(--bear); line-height: 1.6; }
 
   /* EVENTS */
   .events-area { display: none; }
@@ -213,41 +227,34 @@
     text-transform: uppercase;
     letter-spacing: 0.18em;
     color: var(--accent);
-    margin-bottom: 14px;
+    margin-bottom: 12px;
     display: flex;
     align-items: center;
     gap: 10px;
   }
-  .events-header::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--border);
-  }
+  .events-header::after { content: ''; flex: 1; height: 1px; background: var(--border); }
 
   .event-card {
     background: var(--card);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: 24px 26px;
+    padding: 22px 24px;
     margin-bottom: 12px;
     display: flex;
-    gap: 20px;
+    gap: 18px;
     align-items: flex-start;
     transition: border-color 0.25s, transform 0.2s;
+    text-decoration: none;
   }
 
-  .event-card:hover {
-    border-color: rgba(200,240,96,0.22);
-    transform: translateY(-2px);
-  }
+  .event-card:hover { border-color: rgba(200,240,96,0.22); transform: translateY(-2px); }
 
   .event-num {
     font-family: 'DM Serif Display', serif;
     font-style: italic;
-    font-size: 32px;
+    font-size: 30px;
     color: var(--border);
-    min-width: 38px;
+    min-width: 36px;
     line-height: 1;
     padding-top: 2px;
     transition: color 0.25s;
@@ -258,39 +265,19 @@
 
   .event-body { flex: 1; min-width: 0; }
 
-  .event-year-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 8px;
-  }
-
   .event-year {
     font-size: 11px;
     text-transform: uppercase;
     letter-spacing: 0.18em;
     color: var(--accent2);
+    margin-bottom: 8px;
   }
-
-  .event-tag {
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    padding: 3px 9px;
-    border-radius: 99px;
-  }
-
-  .tag-science  { border: 1px solid rgba(96,200,240,0.4); color: var(--accent3); background: rgba(96,200,240,0.08); }
-  .tag-politics { border: 1px solid rgba(240,184,96,0.4); color: var(--accent2); background: rgba(240,184,96,0.08); }
-  .tag-culture  { border: 1px solid rgba(200,240,96,0.4); color: var(--bull); background: rgba(200,240,96,0.08); }
-  .tag-war      { border: 1px solid rgba(255,107,107,0.4); color: var(--bear); background: rgba(255,107,107,0.08); }
-  .tag-default  { border: 1px solid var(--border); color: var(--muted); background: transparent; }
 
   .event-title {
     font-size: 14px;
     color: var(--text);
     line-height: 1.5;
-    margin-bottom: 8px;
+    margin-bottom: 7px;
     font-weight: 500;
   }
 
@@ -300,12 +287,31 @@
     line-height: 1.75;
   }
 
+  .event-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 10px;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent3);
+    text-decoration: none;
+    border: 1px solid rgba(96,200,240,0.3);
+    padding: 4px 10px;
+    border-radius: 99px;
+    background: rgba(96,200,240,0.06);
+    transition: background 0.2s;
+  }
+
+  .event-link:hover { background: rgba(96,200,240,0.14); }
+
   /* SOCIAL */
   .social-row {
     margin-top: 40px;
     display: flex;
     justify-content: center;
-    gap: 20px;
+    gap: 18px;
     animation: fadeUp 0.5s ease 0.5s both;
   }
 
@@ -325,7 +331,6 @@
   .social-link svg { width: 16px; height: 16px; fill: var(--muted); transition: fill 0.2s; }
   .social-link:hover svg { fill: var(--accent); }
 
-  /* FOOTER */
   footer {
     margin-top: 20px;
     text-align: center;
@@ -335,7 +340,6 @@
     line-height: 1.8;
   }
 
-  /* ANIMATIONS */
   @keyframes fadeDown {
     from { opacity: 0; transform: translateY(-14px); }
     to   { opacity: 1; transform: translateY(0); }
@@ -353,12 +357,11 @@
     50%       { opacity: 0.3; }
   }
 
-  /* MOBILE */
   @media (max-width: 520px) {
-    .date-card { flex-direction: column; align-items: flex-start; }
+    .date-card   { flex-direction: column; align-items: flex-start; }
     .explore-btn { width: 100%; }
-    .event-card { gap: 12px; }
-    .event-num { font-size: 24px; min-width: 28px; }
+    .event-card  { gap: 12px; }
+    .event-num   { font-size: 24px; min-width: 28px; }
   }
 </style>
 </head>
@@ -367,7 +370,7 @@
 
   <div class="eyebrow">● History on this Day</div>
   <h1>Chrono<span>Day</span></h1>
-  <p class="subtitle">See what happened in history on today's date — across all eras and categories.</p>
+  <p class="subtitle">Discover the most significant events that happened on today's date throughout history — powered by Wikipedia, completely free.</p>
 
   <!-- DATE HERO -->
   <div class="date-card">
@@ -381,6 +384,8 @@
     </button>
   </div>
 
+  <div class="source-badge">Source: <span>Wikipedia On This Day API</span> · Free · No key required</div>
+
   <!-- LOADING -->
   <div class="loading-area" id="loadingArea">
     <div class="dots">
@@ -391,7 +396,7 @@
 
   <!-- ERROR -->
   <div class="error-card" id="errorCard">
-    <p id="errorMsg">Could not load events. Please try again.</p>
+    <p id="errorMsg">Could not load events. Please check your connection and try again.</p>
   </div>
 
   <!-- EVENTS -->
@@ -402,104 +407,118 @@
 
   <!-- SOCIAL -->
   <div class="social-row">
-    <a class="social-link" href="https://www.linkedin.com/in/giovanni-minchio-6958a61b2" target="_blank" title="LinkedIn">
-      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+    <a class="social-link" href="https://www.linkedin.com/in/giovanni-minchio-6958a61b2" target="_blank" rel="noopener noreferrer" title="LinkedIn">
+      <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
     </a>
-    <a class="social-link" href="https://x.com/giovanniminc?s=21" target="_blank" title="X / Twitter">
-      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.213 5.567 5.951-5.567zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+    <a class="social-link" href="https://x.com/giovanniminc" target="_blank" rel="noopener noreferrer" title="X / Twitter">
+      <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.213 5.567 5.951-5.567zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
     </a>
     <a class="social-link" href="mailto:gminchiogm@gmail.com" title="Gmail">
-      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 010 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.910 1.528-1.145C21.69 2.28 24 3.434 24 5.457z"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 010 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.910 1.528-1.145C21.69 2.28 24 3.434 24 5.457z"/></svg>
     </a>
   </div>
 
   <footer>
-    ChronoDay · Powered by Claude AI (Anthropic) · Events are AI-generated summaries for educational purposes only.<br>
-    Always verify with authoritative historical sources.
+    ChronoDay · Data sourced from Wikipedia via Wikimedia REST API · Free to use, no account required.<br>
+    Historical content is provided as-is from Wikipedia. Accuracy may vary.
   </footer>
 </div>
 
 <script>
-  const MONTHS  = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+  const MONTHS   = ["January","February","March","April","May","June","July","August","September","October","November","December"];
   const WEEKDAYS = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 
   const now = new Date();
-  const month   = now.getMonth();
-  const day     = now.getDate();
-  const weekday = now.getDay();
+  const month = now.getMonth(); // 0-based
+  const day   = now.getDate();
 
   document.getElementById('dateDisplay').innerHTML =
     `${MONTHS[month]} <em>${day}</em>`;
-  document.getElementById('weekdayDisplay').textContent = WEEKDAYS[weekday];
+  document.getElementById('weekdayDisplay').textContent = WEEKDAYS[now.getDay()];
 
-  function getTagClass(cat) {
-    if (!cat) return 'tag-default';
-    const c = cat.toLowerCase();
-    if (c.includes('science') || c.includes('tech') || c.includes('space') || c.includes('medicine') || c.includes('discovery')) return 'tag-science';
-    if (c.includes('war') || c.includes('battle') || c.includes('military') || c.includes('conflict')) return 'tag-war';
-    if (c.includes('politic') || c.includes('treaty') || c.includes('election') || c.includes('government') || c.includes('law')) return 'tag-politics';
-    if (c.includes('culture') || c.includes('art') || c.includes('music') || c.includes('sport') || c.includes('film') || c.includes('literature') || c.includes('religion')) return 'tag-culture';
-    return 'tag-default';
+  // Score events by text length + year spread preference (pick older/diverse ones)
+  function scoreEvent(ev) {
+    const textLen = (ev.text || '').length;
+    const year    = parseInt((ev.year || '0').toString().replace(/[^0-9]/g, '')) || 0;
+    // Prefer longer descriptions (more notable) and spread across history
+    return textLen + (year < 1900 ? 40 : 0) + (year < 1500 ? 40 : 0);
+  }
+
+  function pickTop3(events) {
+    if (!events || events.length === 0) return [];
+    const sorted = [...events].sort((a, b) => scoreEvent(b) - scoreEvent(a));
+    // Pick top 3 but try to space years apart
+    const picked = [];
+    const usedCenturies = new Set();
+    // First pass: one per century
+    for (const ev of sorted) {
+      if (picked.length >= 3) break;
+      const century = Math.floor((parseInt((ev.year || '0').toString().replace(/[^0-9]/g,'')) || 0) / 100);
+      if (!usedCenturies.has(century)) {
+        picked.push(ev);
+        usedCenturies.add(century);
+      }
+    }
+    // Second pass: fill remaining slots
+    for (const ev of sorted) {
+      if (picked.length >= 3) break;
+      if (!picked.includes(ev)) picked.push(ev);
+    }
+    return picked.slice(0, 3);
+  }
+
+  function getWikiUrl(ev) {
+    const pages = ev.pages || [];
+    if (pages.length > 0 && pages[0].content_urls) {
+      return pages[0].content_urls.desktop?.page || null;
+    }
+    return null;
   }
 
   async function fetchEvents() {
-    const monthName = MONTHS[month];
-
     document.getElementById('eventsArea').classList.remove('active');
     document.getElementById('errorCard').classList.remove('active');
     document.getElementById('loadingArea').classList.add('active');
     document.getElementById('exploreBtn').disabled = true;
 
-    const prompt = `Give me exactly 3 of the most historically significant events that occurred on ${monthName} ${day} throughout history (any year, any era — from antiquity to the 21st century).
-
-Rules:
-- There MUST be exactly 3 events — never fewer, never more.
-- Each event must be from a DIFFERENT year and ideally a different category.
-- Choose genuinely important, interesting or surprising events — not trivial ones.
-- If the date is very obscure, still find 3 real events even if lesser-known.
-
-For each event return:
-- "year": the year as a string (e.g. "44 BC" or "1969")
-- "title": short title, max 10 words
-- "description": 2–3 sentences explaining the event and its significance
-- "category": one of these exact strings: Science & Technology | Politics & Government | War & Conflict | Culture & Arts | Exploration & Discovery | Religion & Philosophy | Economy & Trade | Sports | Natural Disasters | Crime & Justice
-
-Respond ONLY with a valid JSON array of exactly 3 objects. No markdown, no explanation, no extra text.`;
+    // Wikipedia "On This Day" REST API — month is 1-based
+    const mm = String(month + 1).padStart(2, '0');
+    const dd = String(day).padStart(2, '0');
+    const url = `https://en.wikipedia.org/api/rest_v1/feed/onthisday/events/${mm}/${dd}`;
 
     try {
-      const res = await fetch("https://api.anthropic.com/v1/messages", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          model: "claude-sonnet-4-20250514",
-          max_tokens: 1000,
-          messages: [{ role: "user", content: prompt }]
-        })
+      const res = await fetch(url, {
+        headers: { 'Accept': 'application/json' }
       });
 
-      const data = await res.json();
-      const raw   = (data.content || []).map(b => b.text || '').join('');
-      const clean = raw.replace(/```json|```/g, '').trim();
-      const events = JSON.parse(clean);
+      if (!res.ok) throw new Error(`Wikipedia API returned ${res.status}`);
 
-      if (!Array.isArray(events) || events.length === 0) throw new Error('Empty response');
+      const data   = await res.json();
+      const events = data.events || [];
+
+      if (events.length === 0) throw new Error('No events found for this date.');
+
+      const top3 = pickTop3(events);
 
       const list = document.getElementById('eventsList');
       list.innerHTML = '';
 
-      events.forEach((ev, i) => {
+      top3.forEach((ev, i) => {
+        const wikiUrl = getWikiUrl(ev);
         const card = document.createElement('div');
         card.className = 'event-card';
         card.style.animation = `fadeUp 0.5s ease ${0.08 * i}s both`;
+
+        const linkHtml = wikiUrl
+          ? `<a class="event-link" href="${wikiUrl}" target="_blank" rel="noopener noreferrer">Read on Wikipedia →</a>`
+          : '';
+
         card.innerHTML = `
           <div class="event-num">${String(i + 1).padStart(2,'0')}</div>
           <div class="event-body">
-            <div class="event-year-row">
-              <span class="event-year">${ev.year}</span>
-              <span class="event-tag ${getTagClass(ev.category)}">${ev.category}</span>
-            </div>
-            <div class="event-title">${ev.title}</div>
-            <div class="event-desc">${ev.description}</div>
+            <div class="event-year">${ev.year}</div>
+            <div class="event-title">${ev.text}</div>
+            ${linkHtml}
           </div>`;
         list.appendChild(card);
       });
@@ -508,7 +527,7 @@ Respond ONLY with a valid JSON array of exactly 3 objects. No markdown, no expla
 
     } catch (err) {
       document.getElementById('errorMsg').textContent =
-        'Could not retrieve historical events. Please try again in a moment.';
+        `Error: ${err.message || 'Could not load events. Please try again.'}`;
       document.getElementById('errorCard').classList.add('active');
     } finally {
       document.getElementById('loadingArea').classList.remove('active');
