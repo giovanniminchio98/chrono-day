@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ChronoDay — History on this Day</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:      #0e0e0e;
+    --surface: #161616;
+    --card:    #1c1c1c;
+    --border:  #2a2a2a;
+    --accent:  #c8f060;
+    --accent2: #f0b860;
+    --accent3: #60c8f0;
+    --text:    #f0ede8;
+    --muted:   #888;
+    --bull:    #c8f060;
+    --bear:    #ff6b6b;
+    --radius:  16px;
+  }
+
+  html, body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background:
+      radial-gradient(ellipse 60% 40% at 80% 10%, rgba(200,240,96,0.05) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 50% at 10% 90%, rgba(96,200,240,0.04) 0%, transparent 60%);
+  }
+
+  .wrapper {
+    position: relative;
+    z-index: 1;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 48px 20px 80px;
+  }
+
+  .eyebrow {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    margin-bottom: 14px;
+    animation: fadeDown 0.6s ease both;
+  }
+
+  h1 {
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    font-size: clamp(36px, 8vw, 56px);
+    line-height: 1.05;
+    margin-bottom: 10px;
+    animation: fadeDown 0.6s ease 0.08s both;
+  }
+
+  h1 span { color: var(--accent); font-style: normal; }
+
+  .subtitle {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 28px;
+    animation: fadeDown 0.6s ease 0.16s both;
+  }
+
+  /* DATE HERO */
+  .date-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 32px 28px;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    animation: fadeUp 0.5s ease 0.2s both;
+  }
+
+  .date-left { flex: 1; }
+
+  .date-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .live-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: pulse 2s infinite;
+    display: inline-block;
+  }
+
+  .date-big {
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    font-size: clamp(28px, 7vw, 44px);
+    line-height: 1.1;
+    color: var(--text);
+  }
+
+  .date-big em { color: var(--accent); font-style: normal; }
+
+  .date-weekday {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+  }
+
+  .explore-btn {
+    background: var(--accent);
+    color: #0e0e0e;
+    border: none;
+    border-radius: 12px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    padding: 16px 28px;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.15s;
+    white-space: nowrap;
+    flex-shrink: 0;
+    line-height: 1.4;
+    text-align: center;
+  }
+
+  .explore-btn:hover  { opacity: 0.85; transform: translateY(-2px); }
+  .explore-btn:active { transform: translateY(0); opacity: 1; }
+  .explore-btn:disabled { opacity: 0.35; cursor: not-allowed; transform: none; }
+
+  /* SOURCE BADGE */
+  .source-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 99px;
+    padding: 5px 12px;
+    margin-bottom: 14px;
+    animation: fadeUp 0.5s ease 0.25s both;
+  }
+
+  .source-badge span { color: var(--accent3); }
+
+  /* LOADING */
+  .loading-area {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    padding: 56px 20px;
+    background: var(--card);
+    border: 1px solid rgba(200,240,96,0.15);
+    border-radius: var(--radius);
+    margin-bottom: 14px;
+  }
+
+  .loading-area.active { display: flex; animation: fadeUp 0.4s ease both; }
+
+  .dots { display: flex; gap: 6px; align-items: center; }
+  .dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: dotBounce 0.9s ease-in-out infinite;
+  }
+  .dot:nth-child(2) { animation-delay: 0.18s; }
+  .dot:nth-child(3) { animation-delay: 0.36s; }
+
+  .loading-text {
+    font-size: 12px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+
+  /* ERROR */
+  .error-card {
+    background: var(--card);
+    border: 1px solid rgba(255,107,107,0.3);
+    border-radius: var(--radius);
+    padding: 24px 28px;
+    display: none;
+    margin-bottom: 14px;
+  }
+  .error-card.active { display: block; animation: fadeUp 0.4s ease both; }
+  .error-card p { font-size: 12px; color: var(--bear); line-height: 1.6; }
+
+  /* EVENTS */
+  .events-area { display: none; }
+  .events-area.active { display: block; }
+
+  .events-header {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--accent);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .events-header::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  .event-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px 24px;
+    margin-bottom: 12px;
+    display: flex;
+    gap: 18px;
+    align-items: flex-start;
+    transition: border-color 0.25s, transform 0.2s;
+    text-decoration: none;
+  }
+
+  .event-card:hover { border-color: rgba(200,240,96,0.22); transform: translateY(-2px); }
+
+  .event-num {
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    font-size: 30px;
+    color: var(--border);
+    min-width: 36px;
+    line-height: 1;
+    padding-top: 2px;
+    transition: color 0.25s;
+    user-select: none;
+  }
+
+  .event-card:hover .event-num { color: var(--accent); }
+
+  .event-body { flex: 1; min-width: 0; }
+
+  .event-year {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--accent2);
+    margin-bottom: 8px;
+  }
+
+  .event-title {
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.5;
+    margin-bottom: 7px;
+    font-weight: 500;
+  }
+
+  .event-desc {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.75;
+  }
+
+  .event-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 10px;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent3);
+    text-decoration: none;
+    border: 1px solid rgba(96,200,240,0.3);
+    padding: 4px 10px;
+    border-radius: 99px;
+    background: rgba(96,200,240,0.06);
+    transition: background 0.2s;
+  }
+
+  .event-link:hover { background: rgba(96,200,240,0.14); }
+
+  /* SOCIAL */
+  .social-row {
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+    animation: fadeUp 0.5s ease 0.5s both;
+  }
+
+  .social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px; height: 40px;
+    border-radius: 10px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    text-decoration: none;
+    transition: border-color 0.2s, transform 0.15s;
+  }
+
+  .social-link:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .social-link svg { width: 16px; height: 16px; fill: var(--muted); transition: fill 0.2s; }
+  .social-link:hover svg { fill: var(--accent); }
+
+  footer {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 11px;
+    color: #3a3a3a;
+    letter-spacing: 0.08em;
+    line-height: 1.8;
+  }
+
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes dotBounce {
+    0%, 80%, 100% { transform: translateY(0); opacity: 0.4; }
+    40%           { transform: translateY(-8px); opacity: 1; }
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.3; }
+  }
+
+  @media (max-width: 520px) {
+    .date-card   { flex-direction: column; align-items: flex-start; }
+    .explore-btn { width: 100%; }
+    .event-card  { gap: 12px; }
+    .event-num   { font-size: 24px; min-width: 28px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <div class="eyebrow">● History on this Day</div>
+  <h1>Chrono<span>Day</span></h1>
+  <p class="subtitle">Discover the most significant events that happened on today's date throughout history — powered by Wikipedia, completely free.</p>
+
+  <!-- DATE HERO -->
+  <div class="date-card">
+    <div class="date-left">
+      <div class="date-label"><span class="live-dot"></span> Today</div>
+      <div class="date-big" id="dateDisplay">—</div>
+      <div class="date-weekday" id="weekdayDisplay">—</div>
+    </div>
+    <button class="explore-btn" id="exploreBtn" onclick="fetchEvents()">
+      Discover<br>History →
+    </button>
+  </div>
+
+  <div class="source-badge">Source: <span>Wikipedia On This Day API</span> · Free · No key required</div>
+
+  <!-- LOADING -->
+  <div class="loading-area" id="loadingArea">
+    <div class="dots">
+      <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+    </div>
+    <span class="loading-text">Searching through history…</span>
+  </div>
+
+  <!-- ERROR -->
+  <div class="error-card" id="errorCard">
+    <p id="errorMsg">Could not load events. Please check your connection and try again.</p>
+  </div>
+
+  <!-- EVENTS -->
+  <div class="events-area" id="eventsArea">
+    <div class="events-header">Top events</div>
+    <div id="eventsList"></div>
+  </div>
+
+  <!-- SOCIAL -->
+  <div class="social-row">
+    <a class="social-link" href="https://www.linkedin.com/in/giovanni-minchio-6958a61b2" target="_blank" rel="noopener noreferrer" title="LinkedIn">
+      <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+    </a>
+    <a class="social-link" href="https://x.com/giovanniminc" target="_blank" rel="noopener noreferrer" title="X / Twitter">
+      <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.213 5.567 5.951-5.567zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+    </a>
+    <a class="social-link" href="mailto:gminchiogm@gmail.com" title="Gmail">
+      <svg viewBox="0 0 24 24"><path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 010 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.910 1.528-1.145C21.69 2.28 24 3.434 24 5.457z"/></svg>
+    </a>
+  </div>
+
+  <footer>
+    ChronoDay · Data sourced from Wikipedia via Wikimedia REST API · Free to use, no account required.<br>
+    Historical content is provided as-is from Wikipedia. Accuracy may vary.
+  </footer>
+</div>
+
+<script>
+  const MONTHS   = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+  const WEEKDAYS = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+
+  const now = new Date();
+  const month = now.getMonth(); // 0-based
+  const day   = now.getDate();
+
+  document.getElementById('dateDisplay').innerHTML =
+    `${MONTHS[month]} <em>${day}</em>`;
+  document.getElementById('weekdayDisplay').textContent = WEEKDAYS[now.getDay()];
+
+  // Score events by text length + year spread preference (pick older/diverse ones)
+  function scoreEvent(ev) {
+    const textLen = (ev.text || '').length;
+    const year    = parseInt((ev.year || '0').toString().replace(/[^0-9]/g, '')) || 0;
+    // Prefer longer descriptions (more notable) and spread across history
+    return textLen + (year < 1900 ? 40 : 0) + (year < 1500 ? 40 : 0);
+  }
+
+  function pickTop3(events) {
+    if (!events || events.length === 0) return [];
+    const sorted = [...events].sort((a, b) => scoreEvent(b) - scoreEvent(a));
+    // Pick top 3 but try to space years apart
+    const picked = [];
+    const usedCenturies = new Set();
+    // First pass: one per century
+    for (const ev of sorted) {
+      if (picked.length >= 3) break;
+      const century = Math.floor((parseInt((ev.year || '0').toString().replace(/[^0-9]/g,'')) || 0) / 100);
+      if (!usedCenturies.has(century)) {
+        picked.push(ev);
+        usedCenturies.add(century);
+      }
+    }
+    // Second pass: fill remaining slots
+    for (const ev of sorted) {
+      if (picked.length >= 3) break;
+      if (!picked.includes(ev)) picked.push(ev);
+    }
+    return picked.slice(0, 3);
+  }
+
+  function getWikiUrl(ev) {
+    const pages = ev.pages || [];
+    if (pages.length > 0 && pages[0].content_urls) {
+      return pages[0].content_urls.desktop?.page || null;
+    }
+    return null;
+  }
+
+  async function fetchEvents() {
+    document.getElementById('eventsArea').classList.remove('active');
+    document.getElementById('errorCard').classList.remove('active');
+    document.getElementById('loadingArea').classList.add('active');
+    document.getElementById('exploreBtn').disabled = true;
+
+    // Wikipedia "On This Day" REST API — month is 1-based
+    const mm = String(month + 1).padStart(2, '0');
+    const dd = String(day).padStart(2, '0');
+    const url = `https://en.wikipedia.org/api/rest_v1/feed/onthisday/events/${mm}/${dd}`;
+
+    try {
+      const res = await fetch(url, {
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if (!res.ok) throw new Error(`Wikipedia API returned ${res.status}`);
+
+      const data   = await res.json();
+      const events = data.events || [];
+
+      if (events.length === 0) throw new Error('No events found for this date.');
+
+      const top3 = pickTop3(events);
+
+      const list = document.getElementById('eventsList');
+      list.innerHTML = '';
+
+      top3.forEach((ev, i) => {
+        const wikiUrl = getWikiUrl(ev);
+        const card = document.createElement('div');
+        card.className = 'event-card';
+        card.style.animation = `fadeUp 0.5s ease ${0.08 * i}s both`;
+
+        const linkHtml = wikiUrl
+          ? `<a class="event-link" href="${wikiUrl}" target="_blank" rel="noopener noreferrer">Read on Wikipedia →</a>`
+          : '';
+
+        card.innerHTML = `
+          <div class="event-num">${String(i + 1).padStart(2,'0')}</div>
+          <div class="event-body">
+            <div class="event-year">${ev.year}</div>
+            <div class="event-title">${ev.text}</div>
+            ${linkHtml}
+          </div>`;
+        list.appendChild(card);
+      });
+
+      document.getElementById('eventsArea').classList.add('active');
+
+    } catch (err) {
+      document.getElementById('errorMsg').textContent =
+        `Error: ${err.message || 'Could not load events. Please try again.'}`;
+      document.getElementById('errorCard').classList.add('active');
+    } finally {
+      document.getElementById('loadingArea').classList.remove('active');
+      document.getElementById('exploreBtn').disabled = false;
+    }
+  }
+</script>
+</body>
+</html>
